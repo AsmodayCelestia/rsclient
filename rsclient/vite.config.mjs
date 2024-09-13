@@ -23,7 +23,7 @@ export default defineConfig({
     Vuetify({
       autoImport: true,
       styles: {
-        configFile: 'src/styles/settings.scss',
+        configFile: 'src/style.css',
       },
     }),
     Components(),
@@ -62,6 +62,6 @@ export default defineConfig({
     ],
   },
   server: {
-    port: 3000,
+    port: 5173,
   },
 })
