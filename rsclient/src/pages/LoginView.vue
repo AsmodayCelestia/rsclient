@@ -28,13 +28,15 @@
             <form @submit.prevent="doLogin" id="form-login" class="w-1/2 mx-auto py-3">
               <div class="mb-3">
                 <label for="login-email" class="block text-sm font-medium text-gray-700">Email address</label>
-                <input v-model="email" type="email" class="form-input w-full mt-1 p-2 border border-gray-300 rounded-md"
-                  id="login-email" aria-describedby="emailHelp" />
+                <input v-model="email" type="email" 
+                       class="form-input w-full mt-1 p-2 border border-gray-300 rounded-md bg-white" 
+                       id="login-email" aria-describedby="emailHelp" />
               </div>
               <div class="mb-3">
                 <label for="login-password" class="block text-sm font-medium text-gray-700">Password</label>
-                <input v-model="password" type="password" class="form-input w-full mt-1 p-2 border border-gray-300 rounded-md"
-                  id="login-password" />
+                <input v-model="password" type="password" 
+                       class="form-input w-full mt-1 p-2 border border-gray-300 rounded-md bg-white" 
+                       id="login-password" />
               </div>
               <div class="flex justify-center py-5">
                 <button type="submit" class="bg-blue-500 text-white px-4 py-2 rounded-md">Login</button>
@@ -57,3 +59,10 @@
     </section>
   </template>
   
+  <style scoped>
+  /* Apply specific background color to override autofill */
+  input:-webkit-autofill {
+    background-color: white !important;
+    color: black !important;
+  }
+  </style>

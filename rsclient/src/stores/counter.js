@@ -36,7 +36,9 @@ export const useCounterStore = defineStore('counter', {
           url: `${SERVER_URL}/login`,
           data: {email, password}
         })
-        localStorage.setItem('access_token', data.access_token)
+        console.log(data, "<<<<< data nih");
+        
+        localStorage.setItem('Authorization', data.Authorization)
         localStorage.setItem('role', data.role)
         // this.params = {}
         this.router.push("/home")
@@ -50,12 +52,15 @@ export const useCounterStore = defineStore('counter', {
     async fetchLodgings() {
       try {
         const { data } = await axios({
-          url: `${SERVER_URL}/pub/lodgings`,
+          url: `${SERVER_URL}/patient`,
           method: `GET`,
-          params: this.params
+          params: this.params,
+          headers: {
+            Authorization: `${localStorage.getItem('Authorization')}`  // Correct way to pass headers
+          }
         })
-        console.log(data.data);
-        this.lodgings = data.data
+        console.log(data.menu);
+        this.lodgings = data.menu
       } catch (error) {
         console.log(error);
       }
@@ -75,12 +80,28 @@ export const useCounterStore = defineStore('counter', {
     async logout(){
       // console.log("kok bisa");
       try {
-        localStorage.removeItem('access_token')
+        localStorage.removeItem('Authorization')
         localStorage.removeItem('role')
         this.router.push("/login")
       } catch (error) {
         console.log(error);
       }
+    },
+    async addPatient(patient){
+        try {
+            console.log(patient.firstName, patient.lastName, patient.age, patient.sex, patient.birthdate, patient.address, patient.phoneNumber);
+            const {data} = await axios({
+                method: "post",
+                url: `${SERVER_URL}/patient`,
+                data: {firstName: patient.firstName, lastName: patient.lastName, age: patient.age, sex: patient.sex, birthDate: patient.birthdate, address: patient.address, phoneNumber: patient.phoneNumber},
+                headers: {
+                    Authorization: `${localStorage.getItem('Authorization')}`  // Correct way to pass headers
+                }
+            })
+            this.router.push("/home")
+        } catch (error) {
+            
+        }
     },
     async fetchDetail(id){
       try {

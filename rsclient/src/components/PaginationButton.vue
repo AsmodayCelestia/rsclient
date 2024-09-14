@@ -25,14 +25,25 @@ export default{
 
 
 <template>
-    <nav  class="d-flex justify-content-center" aria-label="Page navigation example">
-        <ul class="pagination">
-            <li v-if="params.page.number !== 1" @click.prevent="beforePage" class="page-item"><a class="page-link" href="#">Previous</a></li>
-            <li @click.prevent="getPage(1)" class="page-item"><a class="page-link" href="#">1</a></li>
-            <li @click.prevent="getPage(2)" class="page-item"><a class="page-link" href="#">2</a></li>
-            <li @click.prevent="getPage(3)" class="page-item"><a class="page-link" href="#">3</a></li>
-            <li v-if="params.page.number !== 3" @click.prevent="nextPage" class="page-item"><a class="page-link" href="#">Next</a></li>
-        </ul>
+    <nav class="flex justify-center" aria-label="Page navigation example">
+      <ul class="inline-flex space-x-2">
+        <li v-if="params.page.number !== 1" @click.prevent="beforePage" class="page-item">
+          <a class="px-3 py-1 bg-gray-200 text-gray-700 rounded hover:bg-gray-300 cursor-pointer">Previous</a>
+        </li>
+        <li @click.prevent="getPage(1)" class="page-item">
+          <a class="px-3 py-1 bg-gray-200 text-gray-700 rounded hover:bg-gray-300 cursor-pointer">1</a>
+        </li>
+        <li @click.prevent="getPage(2)" class="page-item">
+          <a class="px-3 py-1 bg-gray-200 text-gray-700 rounded hover:bg-gray-300 cursor-pointer">2</a>
+        </li>
+        <li @click.prevent="getPage(3)" class="page-item">
+          <a class="px-3 py-1 bg-gray-200 text-gray-700 rounded hover:bg-gray-300 cursor-pointer">3</a>
+        </li>
+        <li v-if="params.page.number !== 3" @click.prevent="nextPage" class="page-item">
+          <a class="px-3 py-1 bg-gray-200 text-gray-700 rounded hover:bg-gray-300 cursor-pointer">Next</a>
+        </li>
+      </ul>
     </nav>
-    <br><br>    <br><br>     <br><br>
-</template>
+    <br><br> <br><br> <br><br>
+  </template>
+  

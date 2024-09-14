@@ -4,6 +4,7 @@ import LoginView from "../pages/LoginView.vue"
 import DetailView from '../pages/DetailView.vue'
 import BookMark from '../pages/BookMark.vue'
 import Register from '../pages/RegisterView.vue'
+import AddPatient from '../pages/AddPatient.vue'
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -36,6 +37,11 @@ const router = createRouter({
       path: '/register',
       name: 'register',
       component: Register
+    },
+    {
+      path: '/addPatient',
+      name: 'addPatient',
+      component: AddPatient
     },
   ]
 })
