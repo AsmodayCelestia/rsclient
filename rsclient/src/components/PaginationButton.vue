@@ -3,10 +3,14 @@ import { mapActions, mapWritableState} from 'pinia';
 import { useCounterStore } from '../stores/counter';
 export default{
     computed: {  //ini untuk looping di homepage
-        ...mapWritableState(useCounterStore, ['params', 'query'])
+        ...mapWritableState(useCounterStore, ['params', 'query', 'search'])
     },
     methods: {
         ...mapActions(useCounterStore, ['fetchLodgings']),
+        // triggerSearch() {
+        // this.fetchLodgings(); // Fetch lodgings based on updated params
+        // console.log('Search triggered with query:', this.search);
+        // },
         nextPage(){
             this.params.page.number++
             this.fetchLodgings()

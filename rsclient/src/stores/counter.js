@@ -1,195 +1,184 @@
-// import { ref, computed } from 'vue'
+// ✅ store/counter.js
 import { defineStore } from 'pinia'
 import axios from 'axios'
 
-// const SERVER_URL = "https://lodgings.asmodaycelestia.online"
-const SERVER_URL = "http://localhost:3000"
+const SERVER_URL = 'http://localhost:3000'
 
 export const useCounterStore = defineStore('counter', {
-  state: () => ({ 
-    qr: '',
-    lodgingDetail: '',
-    query: '',
-    filter: '',
+  state: () => ({
     email: '',
-    pagination: 1,
-    bookmarks: [],
-    lodgings: [],
-    types: [],
+    role: '',
+    myRewards: [],
+    rewardDetails: [], // detail performance pribadi
+    allRewards: [],
+    actions: [],
+    units: [],
+    actionRanges: [],
     params: {
-      page: {
-        size: 8, 
-        number: 1 
-      },
-      filter: {
-        // type: 5, 
-      }
+      filter: { search: '' },
+      page: { number: 1, size: 10 }
     }
-   }),
-  getters: {},
+  }),
   actions: {
-    async handleLogin(email, password){
-      console.log(email, password);
+    async handleLogin(email, password) {
       try {
-        const {data} = await axios({
-          method: "post",
-          url: `${SERVER_URL}/login`,
-          data: {email, password}
-        })
-        console.log(data, "<<<<< data nih");
-        
+        const { data } = await axios.post(`${SERVER_URL}/login`, { email, password })
         localStorage.setItem('Authorization', data.Authorization)
         localStorage.setItem('role', data.role)
-        // this.params = {}
-        this.router.push("/home")
-        this.email = email
-        // console.log(this.email, '<<<<email nih');
-        console.log('Masyukk abangkuuuuh');
+        this.email = data.email
+        this.role = data.role
+
+        await this.fetchUnits()
+        await this.fetchActions()
+        await this.fetchActionRanges()
+
+        if (data.role === 'admin') this.router.push('/admin')
+        else this.router.push('/home')
       } catch (error) {
-        console.log(error);
+        console.error('Login gagal:', error)
       }
     },
-    async fetchLodgings() {
+
+    async handleRegister(name, email, password, role = 'karyawan') {
       try {
-        const { data } = await axios({
-          url: `${SERVER_URL}/patient`,
-          method: `GET`,
-          params: this.params,
-          headers: {
-            Authorization: `${localStorage.getItem('Authorization')}`  // Correct way to pass headers
-          }
+        await axios.post(`${SERVER_URL}/register`, { name, email, password, role })
+        this.router.push('/login')
+      } catch (error) {
+        console.error('Register gagal:', error)
+      }
+    },
+
+    logout() {
+      localStorage.removeItem('Authorization')
+      localStorage.removeItem('role')
+      this.router.push('/login')
+    },
+
+    async fetchMyRewards() {
+      try {
+        const { data } = await axios.get(`${SERVER_URL}/my-rewards`, {
+          headers: { Authorization: localStorage.getItem('Authorization') }
         })
-        console.log(data.menu);
-        this.lodgings = data.menu
+        this.myRewards = data
       } catch (error) {
-        console.log(error);
+        console.error('Gagal ambil reward pribadi:', error)
       }
     },
-    async fetchTypes() {
+
+    async fetchMyRewardDetails() {
       try {
-        const { data } = await axios({
-          url: `${SERVER_URL}/pub/types`,
-          method: `GET`
+        const { data } = await axios.get(`${SERVER_URL}/my-performance`, {
+          headers: { Authorization: localStorage.getItem('Authorization') }
+        });
+        console.log('[DEBUG] fetchMyRewardDetails response:', data)
+        this.rewardDetails = data;
+      } catch (error) {
+        console.error('Gagal ambil detail reward:', error);
+      }
+    },
+
+    async inputReward({ actionId, jumlahPasien, tanggal }) {
+      try {
+        const { data } = await axios.post(`${SERVER_URL}/rewards`, {
+          actionId,
+          jumlahPasien,
+          tanggal
+        }, {
+          headers: { Authorization: localStorage.getItem('Authorization') }
         })
-        console.log(data);
-        this.types = data
+        this.myRewards.push(data)
       } catch (error) {
-        console.log(error);
+        console.error('Gagal input reward:', error)
       }
     },
-    async logout(){
-      // console.log("kok bisa");
+
+    async fetchUserPerformance(userId) {
       try {
-        localStorage.removeItem('Authorization')
-        localStorage.removeItem('role')
-        this.router.push("/login")
-      } catch (error) {
-        console.log(error);
-      }
-    },
-    async addPatient(patient){
-        try {
-            console.log(patient.firstName, patient.lastName, patient.age, patient.sex, patient.birthdate, patient.address, patient.phoneNumber);
-            const {data} = await axios({
-                method: "post",
-                url: `${SERVER_URL}/patient`,
-                data: {firstName: patient.firstName, lastName: patient.lastName, age: patient.age, sex: patient.sex, birthDate: patient.birthdate, address: patient.address, phoneNumber: patient.phoneNumber},
-                headers: {
-                    Authorization: `${localStorage.getItem('Authorization')}`  // Correct way to pass headers
-                }
-            })
-            this.router.push("/home")
-        } catch (error) {
-            
-        }
-    },
-    async fetchDetail(id){
-      try {
-        console.log(id, "ini id di fetchDetail");
-        const { data } = await axios({
-          url: `${SERVER_URL}/pub/lodgings/`+`${id}`,
-          method: `GET`
+        const { data } = await axios.get(`${SERVER_URL}/user/${userId}/performance`, {
+          headers: { Authorization: localStorage.getItem('Authorization') }
         })
-        const response = await axios({
-          method: `POST`,
-          url: `${SERVER_URL}pub/QrCode`,
-          data: {dinamis: `https://phase2-c3-46fbd.web.app/detail/${id}`}
-          // data: {dinamis: `http://localhost:3000/detail/` + `${id}`}
-      })
-      console.log(response.data);
-      this.qr = response.data
-        // console.log(data1.data, 'ini data1');
-      // this.Qr = data
-      console.log(data);
-        console.log(data ,'<<<<<<ini di fetchDetail');
-        data.createdAt = new Date(data.createdAt).toLocaleDateString(["ban", "id"], {
-            weekday: 'long',
-            day: 'numeric',
-            month: 'long',
-            year: 'numeric',
-            hour: 'numeric',
-            minute: 'numeric',
-            second: 'numeric'
+        return data;
+      } catch (error) {
+        console.error('Gagal ambil performance user:', error);
+        return [];
+      }
+    },
+
+    async fetchAllRewards() {
+      try {
+        const { data } = await axios.get(`${SERVER_URL}/all-rewards`, {
+          headers: { Authorization: localStorage.getItem('Authorization') }
         })
-          const rupiah = (number)=>{
-            return new Intl.NumberFormat("id-ID", {
-              style: "currency",
-              currency: "IDR"
-            }).format(number);
-          }
-          data.price = rupiah(data.price) // "Rp 20.000,00"
-        this.lodgingDetail = data
-        console.log(data, '<<<harusnya createdAt keubah');
-        this.router.push("/detail/"+`${id}`)
+        this.allRewards = data
       } catch (error) {
-        console.log(error);
+        console.error('Gagal ambil semua reward:', error)
       }
     },
-    async addBookmark(id){
+
+    async createUnit(name) {
       try {
-        if (localStorage.access_token) {
-          const { data } = await axios({
-            url: `${SERVER_URL}/pub/bookmark/`+id,
-            method: `POST`,
-            headers: {
-              access_token: localStorage.getItem('access_token')
-            }
-          })
-          console.log(data, '<<<< ini di add bookmark');
-        }
+        await axios.post(`${SERVER_URL}/units`, { name }, {
+          headers: { Authorization: localStorage.getItem('Authorization') }
+        })
+        await this.fetchUnits()
       } catch (error) {
-        console.log(error);
+        console.error('Gagal tambah unit:', error)
       }
     },
-    async Bookmark(){
+
+    async createAction({ name, unitId, nilaiPerTindakan }) {
       try {
-        if(localStorage.access_token){
-          this.router.push("/bookmark")
-        }
+        await axios.post(`${SERVER_URL}/actions`, { name, unitId, nilaiPerTindakan }, {
+          headers: { Authorization: localStorage.getItem('Authorization') }
+        })
+        await this.fetchActions()
       } catch (error) {
-        console.log(error);
+        console.error('Gagal tambah tindakan:', error)
       }
     },
-    async home(){
+
+    async createRange({ actionId, minValue, maxValue, pengali }) {
       try {
-        this.router.push("/home")
+        await axios.post(`${SERVER_URL}/ranges`, { actionId, minValue, maxValue, pengali }, {
+          headers: { Authorization: localStorage.getItem('Authorization') }
+        })
+        await this.fetchActionRanges()
       } catch (error) {
-        console.log(error);
+        console.error('Gagal tambah range:', error)
       }
     },
-    async handleRegister(email, password){
-      console.log(email, password);
-      const { data } = await axios({
-          url: `${SERVER_URL}/pub/register`,
-          method: `POST`,
-          data: {email, password}
-      })
-      console.log(data, '<<<<handleRegister');  
-      localStorage.setItem('access_token', data.access_token)
-      localStorage.setItem('role', data.role)
-      // this.params = {}
-      this.router.push("/home")
-      console.log('Masyukk abangkuuuuh');
+
+    async fetchActions() {
+      try {
+        const { data } = await axios.get(`${SERVER_URL}/actions`, {
+          headers: { Authorization: localStorage.getItem('Authorization') }
+        })
+        this.actions = data
+      } catch (error) {
+        console.error('Gagal ambil tindakan:', error)
+      }
+    },
+
+    async fetchUnits() {
+      try {
+        const { data } = await axios.get(`${SERVER_URL}/units`, {
+          headers: { Authorization: localStorage.getItem('Authorization') }
+        })
+        this.units = data
+      } catch (error) {
+        console.error('Gagal ambil unit:', error)
+      }
+    },
+
+    async fetchActionRanges() {
+      try {
+        const { data } = await axios.get(`${SERVER_URL}/ranges`, {
+          headers: { Authorization: localStorage.getItem('Authorization') }
+        })
+        this.actionRanges = data
+      } catch (error) {
+        console.error('Gagal ambil range:', error)
+      }
     }
   }
 })

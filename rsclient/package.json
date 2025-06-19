@@ -8,12 +8,17 @@
     "lint": "eslint . --fix --ignore-path .gitignore"
   },
   "dependencies": {
+    "@fortawesome/fontawesome-svg-core": "^6.6.0",
+    "@fortawesome/free-solid-svg-icons": "^6.6.0",
+    "@fortawesome/vue-fontawesome": "^3.0.8",
     "@mdi/font": "7.4.47",
     "axios": "^1.7.7",
+    "chart.js": "^4.5.0",
     "core-js": "^3.37.1",
     "flatpickr": "^4.6.13",
     "roboto-fontface": "*",
     "vue": "^3.4.31",
+    "vue-chartjs": "^5.3.2",
     "vue-flatpickr-component": "^11.0.5"
   },
   "devDependencies": {

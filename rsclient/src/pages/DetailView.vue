@@ -20,15 +20,16 @@ export default{
   <div class="row">
     <div class="col-md-9">
       <div class="card">
-        <img :src="lodgingDetail.imgUrl" class="card-img-top" style="height: 600px;" alt="Product Image">
+        <!-- <img :src="lodgingDetail.imgUrl" class="card-img-top" style="height: 600px;" alt="Product Image"> -->
+         Medical Record
         <div class="card-body">
-          <h5 class="card-title">{{ lodgingDetail.name }}</h5>
-          <p class="card-text">Facility: {{ lodgingDetail.facility }}</p>
+          <h5 class="card-title">{{ lodgingDetail.firstName }}</h5>
+          <!-- <p class="card-text">Facility: {{ lodgingDetail.facility }}</p>
           <p class="card-text">Room Capacity: {{ lodgingDetail.roomCapacity }}</p>
           <p class="card-text">Location: {{ lodgingDetail.location }}</p>
           <p class="card-text">Price: {{ lodgingDetail.price }}</p>
           <p class="card-text">Type: {{ lodgingDetail.Type.name }}</p>
-          <p class="card-text">Status: {{ lodgingDetail.status }}</p>
+          <p class="card-text">Status: {{ lodgingDetail.status }}</p> -->
         </div>
         <div class="card-footer">
         </div>
@@ -38,11 +39,11 @@ export default{
       <div>
         <div class="card">
           <div class="card-body">
-            <h5 class="card-title">Author: {{ lodgingDetail.User.username }}</h5>
-            <p class="card-text">Email: {{ lodgingDetail.User.email }}</p>
+            <h5 class="card-title">Author: {{ lodgingDetail.patient.firstName }}</h5>
+            <!-- <p class="card-text">Email: {{ lodgingDetail.User.email }}</p>
             <p class="card-text">Phone Number: {{ lodgingDetail.User.phoneNumber }}</p>
             <p class="card-text">Address: {{ lodgingDetail.User.address }}</p>
-            <p class="card-text">Created At: {{ lodgingDetail.createdAt }}</p>
+            <p class="card-text">Created At: {{ lodgingDetail.createdAt }}</p> -->
           </div>
         </div>
         <div class="card">

@@ -3,8 +3,8 @@
 // import { useCounterStore } from '../stores/counter';
 import CardItem from '../components/CardItem.vue';
 import axios from 'axios';
-const SERVER_URL = "https://lodgings.asmodaycelestia.online"
-// const SERVER_URL = "http://localhost:3000"
+// const SERVER_URL = "https://lodgings.asmodaycelestia.online"
+const SERVER_URL = "http://localhost:3000"
 export default {
     data() {
         return {

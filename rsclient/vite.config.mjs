@@ -13,6 +13,9 @@ import { fileURLToPath, URL } from 'node:url'
 
 // https://vitejs.dev/config/
 export default defineConfig({
+  optimizeDeps: {
+    include: ['chart.js', 'vue-chartjs'] // <-- tambahkan ini
+  },
   plugins: [
     VueRouter(),
     Layouts(),
