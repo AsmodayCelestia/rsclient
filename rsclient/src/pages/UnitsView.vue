@@ -13,8 +13,6 @@
           {{ unitForm.id ? 'Update' : 'Tambah' }}
         </button>
       </form>
-  
-      <!-- Table -->
       <div class="bg-white shadow rounded overflow-x-auto">
         <table class="min-w-full">
           <thead class="bg-gray-100 text-left">

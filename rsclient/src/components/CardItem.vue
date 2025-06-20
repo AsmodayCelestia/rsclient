@@ -8,7 +8,7 @@ export default {
   methods: {
     ...mapActions(useCounterStore, ['fetchDetail', 'addBookmark', 'deletePatient']),
     detail(id) {
-      console.log(id, '<<<<< ini di cardItem');
+      // console.log(id, '<<<<< ini di cardItem');
       this.dataId = id;
       this.fetchDetail(id);
     },
@@ -18,7 +18,7 @@ export default {
     });
     },
     addBookMark(id) {
-      console.log(id, "<<<<<ini di BookMark");
+      // console.log(id, "<<<<<ini di BookMark");
       this.addBookmark(id);
     }
   },

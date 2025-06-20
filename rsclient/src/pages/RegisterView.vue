@@ -13,7 +13,6 @@ export default {
   methods: {
     ...mapActions(useCounterStore, ['handleRegister']),
     doRegister() {
-      console.log(this.name, this.email, this.password, ">> Register");
       this.handleRegister(this.name, this.email, this.password);
     }
   }
@@ -23,12 +22,10 @@ export default {
 <template>
   <section id="register-page" class="flex justify-center items-center h-screen bg-gray-100 overflow-hidden">
     <div class="flex justify-between items-center w-full h-full">
-      <!-- Sign Up Form Container -->
       <div class="w-full md:w-1/2 px-8">
         <div class="mt-5">
           <h1 class="text-center text-3xl font-bold">Sign up and enjoy</h1>
           <form @submit.prevent="doRegister" class="w-full max-w-md mx-auto py-5">
-            <!-- Name -->
             <div class="mb-4">
               <label for="register-name" class="block text-sm font-medium text-gray-700">Nama Lengkap</label>
               <input
@@ -41,7 +38,6 @@ export default {
                 required
               />
             </div>
-            <!-- Email -->
             <div class="mb-4">
               <label for="register-email" class="block text-sm font-medium text-gray-700">Email</label>
               <input
@@ -54,7 +50,6 @@ export default {
                 required
               />
             </div>
-            <!-- Password -->
             <div class="mb-6">
               <label for="register-password" class="block text-sm font-medium text-gray-700">Password</label>
               <input
@@ -67,7 +62,6 @@ export default {
                 required
               />
             </div>
-            <!-- Submit -->
             <div class="flex justify-center">
               <button type="submit" class="bg-blue-600 text-white px-6 py-2 rounded hover:bg-blue-700 w-full">
                 Daftar
@@ -75,7 +69,6 @@ export default {
             </div>
           </form>
 
-          <!-- Link ke login -->
           <p class="text-center text-sm mt-4">
             Sudah punya akun?
             <a class="text-blue-600 hover:underline cursor-pointer" @click.prevent="$router.push('/login')">

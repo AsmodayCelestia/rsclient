@@ -90,17 +90,11 @@ export default {
 
 <template>
   <div class="w-full">
-    <!-- Carousel -->
     <div class="w-full max-w-screen-xl mx-auto">
       <Carousel />
     </div>
-
-    <!-- Konten Utama -->
     <div class="container mx-auto px-4 py-10">
-      <!-- Header Control -->
       <div class="flex flex-col md:flex-row justify-between items-center mb-6 gap-3">
-
-        <!-- Tombol kiri -->
         <div class="flex gap-2">
           <button @click="redirectToAddReward" class="bg-purple-700 text-white px-4 py-2 rounded-md">
             Add Reward
@@ -109,8 +103,6 @@ export default {
             Export PDF
           </button>
         </div>
-
-        <!-- Pencarian tanggal -->
         <div class="flex items-center w-full md:w-auto">
           <input
             type="date"
@@ -123,8 +115,6 @@ export default {
           </button>
         </div>
       </div>
-
-      <!-- Tabel reward -->
       <RewardTable :rewards="filteredRewards" />
     </div>
   </div>

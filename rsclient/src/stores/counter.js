@@ -70,7 +70,6 @@ export const useCounterStore = defineStore('counter', {
         const { data } = await axios.get(`${SERVER_URL}/my-performance`, {
           headers: { Authorization: localStorage.getItem('Authorization') }
         });
-        console.log('[DEBUG] fetchMyRewardDetails response:', data)
         this.rewardDetails = data;
       } catch (error) {
         console.error('Gagal ambil detail reward:', error);
@@ -227,7 +226,6 @@ export const useCounterStore = defineStore('counter', {
       }
     },
 
-    // ✅ store/counter.js
 async createRange(rangeData) {
   try {
     await axios.post(`${SERVER_URL}/ranges`, rangeData, {

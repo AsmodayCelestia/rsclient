@@ -62,8 +62,6 @@ export default {
       </form>
 
       <p v-if="errorMsg" class="mt-4 text-red-600 text-sm text-center">{{ errorMsg }}</p>
-
-      <!-- Tambahan baru -->
       <p class="mt-4 text-center text-sm text-gray-600">
         Belum punya akun?
         <router-link to="/register" class="text-blue-600 hover:underline">Daftar Sekarang</router-link>
@@ -75,7 +73,6 @@ export default {
 </template>
   
   <style scoped>
-  /* Apply specific background color to override autofill */
   input:-webkit-autofill {
     background-color: white !important;
     color: black !important;

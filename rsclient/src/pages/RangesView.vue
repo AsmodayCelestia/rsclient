@@ -1,8 +1,6 @@
 <template>
     <div class="max-w-4xl mx-auto py-10">
       <h2 class="text-2xl font-bold mb-6">📊 Manage Ranges</h2>
-  
-      <!-- Form tambah/edit -->
       <form @submit.prevent="handleSubmit" class="mb-6 flex flex-col md:flex-row gap-4 flex-wrap">
         <select v-model="rangeForm.actionId" class="border px-4 py-2 rounded w-full md:w-1/4">
           <option disabled value="">Pilih Tindakan</option>
@@ -32,8 +30,6 @@
           {{ rangeForm.id ? 'Update' : 'Tambah' }}
         </button>
       </form>
-  
-      <!-- Table range -->
       <div class="bg-white shadow rounded overflow-x-auto">
         <table class="min-w-full">
           <thead class="bg-gray-100 text-left">

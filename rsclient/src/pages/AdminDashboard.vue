@@ -1,8 +1,6 @@
 <template>
     <div class="max-w-6xl mx-auto px-6 py-10">
       <h1 class="text-3xl font-bold mb-6">Dashboard Admin</h1>
-  
-      <!-- 📊 Grafik Total Reward per Tindakan -->
       <div class="bg-white p-6 rounded shadow mb-10">
         <h2 class="text-xl font-semibold mb-4">Grafik Total Reward per Tindakan (30 Hari Terakhir)</h2>
   
@@ -26,8 +24,6 @@
           <strong>Rp {{ totalRewardFormatted }}</strong>
         </p>
       </div>
-  
-      <!-- 🧭 Navigasi CRUD Admin -->
       <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
         <div @click="$router.push('/admin/units')" class="bg-blue-100 p-6 rounded cursor-pointer hover:bg-blue-200">
           <h3 class="text-lg font-semibold">🔧 Manage Units</h3>
@@ -131,8 +127,6 @@
         const { data } = await axios.get('http://localhost:3000/all-rewards', {
           headers: { Authorization: localStorage.getItem('Authorization') }
         });
-  
-        console.log('[DEBUG] Raw /all-rewards data:', data);
   
         this.rewards = data.map(item => ({
           ...item,
