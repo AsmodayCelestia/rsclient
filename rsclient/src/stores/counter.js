@@ -54,17 +54,6 @@ export const useCounterStore = defineStore('counter', {
       this.router.push('/login')
     },
 
-    async fetchMyRewards() {
-      try {
-        const { data } = await axios.get(`${SERVER_URL}/my-rewards`, {
-          headers: { Authorization: localStorage.getItem('Authorization') }
-        })
-        this.myRewards = data
-      } catch (error) {
-        console.error('Gagal ambil reward pribadi:', error)
-      }
-    },
-
     async fetchMyRewardDetails() {
       try {
         const { data } = await axios.get(`${SERVER_URL}/my-performance`, {
