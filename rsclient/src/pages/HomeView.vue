@@ -1,6 +1,8 @@
+// ✅ HomeView.vue
 <script>
 import Carousel from '../components/Carousel.vue';
 import RewardTable from '../components/RewardTable.vue';
+import PaginationButton from '../components/PaginationButton.vue';
 import { mapActions, mapWritableState } from 'pinia';
 import { useCounterStore } from '../stores/counter';
 import jsPDF from 'jspdf';
@@ -9,17 +11,23 @@ import autoTable from 'jspdf-autotable';
 export default {
   components: {
     Carousel,
-    RewardTable
+    RewardTable,
+    PaginationButton
   },
   computed: {
     ...mapWritableState(useCounterStore, ['rewardDetails', 'params', 'actions', 'units', 'actionRanges', 'email']),
     enrichedRewards() {
-      return this.rewardDetails; // Sudah berisi detail lengkap
+      return this.rewardDetails;
     },
     filteredRewards() {
       const query = this.params.filter.search;
       if (!query) return this.enrichedRewards;
-      return this.enrichedRewards.filter(reward => reward.tanggal === query);
+      return this.enrichedRewards.filter(r => r.tanggal === query);
+    },
+    paginatedRewards() {
+      const start = (this.params.page.number - 1) * this.params.page.size;
+      const end = start + this.params.page.size;
+      return this.filteredRewards.slice(start, end);
     }
   },
   methods: {
@@ -37,24 +45,18 @@ export default {
     },
     exportPDF() {
       const doc = new jsPDF();
-
-      // ===== Judul utama =====
       doc.setFontSize(16);
       doc.text('Laporan Reward Karyawan', 14, 15);
 
-      // ===== Info tambahan =====
       const nama = this.email || localStorage.getItem('email') || 'Nama Karyawan';
       const tanggalCetak = new Date().toLocaleDateString('id-ID', {
-        year: 'numeric',
-        month: 'long',
-        day: 'numeric'
+        year: 'numeric', month: 'long', day: 'numeric'
       });
 
       doc.setFontSize(11);
       doc.text(`Nama: ${nama}`, 14, 23);
       doc.text(`Tanggal Cetak: ${tanggalCetak}`, 14, 29);
 
-      // ===== Data tabel =====
       const rows = this.filteredRewards.map(r => ([
         r.tanggal,
         r.unit,
@@ -115,7 +117,9 @@ export default {
           </button>
         </div>
       </div>
-      <RewardTable :rewards="filteredRewards" />
+
+      <RewardTable :rewards="paginatedRewards" />
+      <PaginationButton :filteredLength="filteredRewards.length" :params="params" />
     </div>
   </div>
 </template>

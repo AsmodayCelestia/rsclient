@@ -4,31 +4,34 @@ export default {
     filteredLength: {
       type: Number,
       required: true
+    },
+    params: {
+      type: Object,
+      required: true
     }
   },
   computed: {
     currentPage() {
-      return this.params.page.number
+      return this.params.page.number;
     },
     totalPages() {
-      return Math.ceil(this.filteredLength / this.params.page.size)
+      return Math.ceil(this.filteredLength / this.params.page.size);
     }
   },
   methods: {
     gotoPage(n) {
       if (n >= 1 && n <= this.totalPages) {
-        this.params.page.number = n
+        this.params.page.number = n;
       }
     },
     nextPage() {
-      this.gotoPage(this.currentPage + 1)
+      this.gotoPage(this.currentPage + 1);
     },
     prevPage() {
-      this.gotoPage(this.currentPage - 1)
+      this.gotoPage(this.currentPage - 1);
     }
-  },
-  inject: ['params']
-}
+  }
+};
 </script>
 
 <template>

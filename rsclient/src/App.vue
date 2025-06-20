@@ -15,6 +15,5 @@ import PaginationButton from './components/PaginationButton.vue';
   <NavBar />
   <router-view>
   </router-view>
-  <PaginationButton v-if="$route.path === '/home'" />
 </template>
 
