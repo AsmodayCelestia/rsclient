@@ -159,6 +159,28 @@ export const useCounterStore = defineStore('counter', {
       }
     },
 
+    async updateAction(id, payload) {
+      try {
+        await axios.put(`${SERVER_URL}/actions/${id}`, payload, {
+          headers: { Authorization: localStorage.getItem('Authorization') }
+        });
+        await this.fetchActions();
+      } catch (error) {
+        console.error('Gagal update action:', error);
+      }
+    },
+    
+    async deleteAction(id) {
+      try {
+        await axios.delete(`${SERVER_URL}/actions/${id}`, {
+          headers: { Authorization: localStorage.getItem('Authorization') }
+        });
+        await this.fetchActions();
+      } catch (error) {
+        console.error('Gagal hapus action:', error);
+      }
+    },
+    
     async fetchUnits() {
       try {
         const { data } = await axios.get(`${SERVER_URL}/units`, {
@@ -167,6 +189,30 @@ export const useCounterStore = defineStore('counter', {
         this.units = data
       } catch (error) {
         console.error('Gagal ambil unit:', error)
+      }
+    },
+
+    async updateUnit(id, name) {
+      try {
+        await axios.put(`${SERVER_URL}/units/${id}`, { name }, {
+          headers: { Authorization: localStorage.getItem('Authorization') }
+        });
+        await this.fetchUnits();
+      } catch (error) {
+        console.error('Gagal update unit:', error);
+        throw error;
+      }
+    },
+
+    async deleteUnit(id) {
+      try {
+        await axios.delete(`${SERVER_URL}/units/${id}`, {
+          headers: { Authorization: localStorage.getItem('Authorization') }
+        });
+        await this.fetchUnits();
+      } catch (error) {
+        console.error('Gagal hapus unit:', error);
+        throw error;
       }
     },
 
@@ -179,6 +225,40 @@ export const useCounterStore = defineStore('counter', {
       } catch (error) {
         console.error('Gagal ambil range:', error)
       }
-    }
+    },
+
+    // ✅ store/counter.js
+async createRange(rangeData) {
+  try {
+    await axios.post(`${SERVER_URL}/ranges`, rangeData, {
+      headers: { Authorization: localStorage.getItem('Authorization') }
+    });
+    await this.fetchActionRanges();
+  } catch (error) {
+    console.error('Gagal tambah range:', error);
+  }
+},
+
+async updateRange(rangeData) {
+  try {
+    await axios.put(`${SERVER_URL}/ranges/${rangeData.id}`, rangeData, {
+      headers: { Authorization: localStorage.getItem('Authorization') }
+    });
+    await this.fetchActionRanges();
+  } catch (error) {
+    console.error('Gagal update range:', error);
+  }
+},
+
+async deleteRange(id) {
+  try {
+    await axios.delete(`${SERVER_URL}/ranges/${id}`, {
+      headers: { Authorization: localStorage.getItem('Authorization') }
+    });
+    await this.fetchActionRanges();
+  } catch (error) {
+    console.error('Gagal hapus range:', error);
+  }
+},
   }
 })

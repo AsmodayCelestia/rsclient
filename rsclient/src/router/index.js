@@ -16,6 +16,30 @@ const router = createRouter({
       meta: { requiresAuth: true, role: 'admin' }
     },  
     {
+      path: '/admin/units',
+      name: 'UnitsView',
+      component: () => import('../pages/UnitsView.vue'),
+      meta: { requiresAuth: true, role: 'admin' }
+    },    
+    {
+      path: '/admin/actions',
+      name: 'ActionsView',
+      component: () => import('../pages/ActionsView.vue'),
+      meta: { requiresAuth: true, role: 'admin' }
+    },
+    {
+      path: '/admin/ranges',
+      name: 'AdminRanges',
+      component: () => import('../pages/RangesView.vue'),
+      meta: { requiresAuth: true, role: 'admin' }
+    },  
+    {
+      path: '/admin/Rewards',
+      name: 'AdminRewards',
+      component: () => import('../pages/RewardView.vue'),
+      meta: { requiresAuth: true, role: 'admin' }
+    },    
+    {
       path: '/',
       redirect: '/home'
     },
